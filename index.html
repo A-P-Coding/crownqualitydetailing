@@ -19,9 +19,11 @@ nav { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(10,1
 .nav-links a:hover { color: var(--gold); }
 .nav-cta { background: var(--gold); color: var(--dark); padding: .5rem 1.25rem; border-radius: 3px; font-weight: 700; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; transition: background .2s; }
 .nav-cta:hover { background: var(--gold-light); }
-.hero { min-height: 100vh; display: flex; align-items: center; padding: 100px 5% 60px; position: relative; overflow: hidden; }
-.hero::before { content: '♔'; position: absolute; right: 3%; top: 50%; transform: translateY(-50%); font-size: 35vw; color: rgba(201,168,76,.04); pointer-events: none; line-height: 1; }
-.hero-content { max-width: 620px; }
+.hero { min-height: 100vh; display: flex; align-items: center; padding: 100px 5% 60px; position: relative; overflow: hidden; gap: 2rem; justify-content: space-between; }
+.hero-content { max-width: 580px; flex-shrink: 0; }
+.hero-logo-wrap { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.hero-logo-wrap img { width: clamp(280px, 32vw, 480px); height: clamp(280px, 32vw, 480px); object-fit: contain; opacity: 0.18; filter: invert(1); transition: opacity .3s; }
+.hero-logo-wrap img:hover { opacity: 0.28; }
 .eyebrow { color: var(--gold); font-size: .7rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase; margin-bottom: 1.25rem; }
 .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem,5vw,4.8rem); line-height: 1.08; margin-bottom: 1.5rem; }
 .hero h1 em { color: var(--gold); font-style: normal; }
@@ -112,13 +114,40 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
 .f-copy { color: var(--muted); font-size: .72rem; }
 .f-top { color: var(--muted); font-size: .72rem; text-decoration: none; }
 .f-top:hover { color: var(--gold); }
+/* HAMBURGER */
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: .4rem; background: none; border: none; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--secondary); border-radius: 2px; transition: all .25s; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu { display: none; position: fixed; top: 68px; left: 0; right: 0; background: rgba(10,10,10,0.98); border-bottom: 1px solid var(--border); padding: 1.5rem 5%; z-index: 999; flex-direction: column; gap: 1.25rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--secondary); text-decoration: none; font-size: .95rem; font-weight: 500; letter-spacing: .05em; padding: .5rem 0; border-bottom: 1px solid var(--border); }
+.mobile-menu a:last-child { border-bottom: none; color: var(--gold); font-weight: 700; }
+
+@media (max-width: 900px) {
+  .hero { flex-direction: column; justify-content: center; padding-top: 120px; padding-bottom: 60px; text-align: center; }
+  .hero-logo-wrap { display: none; }
+  .hero-content { max-width: 100%; }
+  .hero p { max-width: 100%; }
+  .ctas { justify-content: center; }
+  .badges { justify-content: center; gap: 1.5rem; }
+}
 @media (max-width: 768px) {
   .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; }
   .loyalty-grid, .about-grid { grid-template-columns: 1fr; }
   .about-img { display: none; }
-  .badges { gap: 1.25rem; }
   footer { flex-direction: column; text-align: center; }
-  .hero::before { font-size: 55vw; }
+  .hero h1 { font-size: 2.4rem; }
+  .services-grid { grid-template-columns: 1fr; }
+  .addons-grid { grid-template-columns: 1fr 1fr; }
+  .pillars { grid-template-columns: 1fr 1fr; }
+  .size-tabs { gap: .35rem; }
+  .size-btn { padding: .45rem .8rem; font-size: .75rem; }
+  section { padding: 3.5rem 5%; }
+  .cta-banner { padding: 3.5rem 5%; }
 }
 </style>
 </head>
@@ -136,7 +165,18 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
     <li><a href="#area">Service Area</a></li>
   </ul>
   <a href="#book" class="nav-cta">Book Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#gallery" onclick="closeMobile()">Gallery</a>
+  <a href="#loyalty" onclick="closeMobile()">Membership</a>
+  <a href="#area" onclick="closeMobile()">Service Area</a>
+  <a href="#book" onclick="closeMobile()">Book Now</a>
+</div>
 
 <section class="hero" id="home">
   <div class="hero-content">
@@ -152,6 +192,9 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
       <div class="badge"><div class="badge-icon">🚗</div><div class="badge-text"><strong>Mobile Service</strong><span>We come to you</span></div></div>
       <div class="badge"><div class="badge-icon">♔</div><div class="badge-text"><strong>Premium Quality</strong><span>Every detail matters</span></div></div>
     </div>
+  </div>
+  <div class="hero-logo-wrap">
+    <img src="logo.png" alt="Crown Quality Detailing">
   </div>
 </section>
 
@@ -373,6 +416,11 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
 </footer>
 
 <script>
+const ham = document.getElementById('hamburger');
+const mob = document.getElementById('mobileMenu');
+ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
+function closeMobile() { ham.classList.remove('open'); mob.classList.remove('open'); }
+
 const prices = {
   S:  { basic: 75,  exterior: 85,  interior: 145, royal: 200 },
   M:  { basic: 85,  exterior: 100, interior: 165, royal: 235 },
