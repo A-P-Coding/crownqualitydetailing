@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crown Quality Detailing | Premium Mobile Auto Detailing | Barrington, IL</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --gold: #C9A84C; --gold-light: #E0C06A; --dark: #0A0A0A; --card: #141414; --card2: #1E1E1E; --border: #2A2A2A; --text: #FFF; --muted: #888; --secondary: #CCC; }
+html { scroll-behavior: smooth; }
+body { background: var(--dark); color: var(--text); font-family: 'Inter', sans-serif; }
+nav { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(10,10,10,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.logo { display: flex; align-items: center; gap: .75rem; text-decoration: none; }
+.logo img { height: 42px; width: 42px; object-fit: contain; }
+.logo-text { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--gold); letter-spacing: .05em; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { color: var(--secondary); text-decoration: none; font-size: .8rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-cta { background: var(--gold); color: var(--dark); padding: .5rem 1.25rem; border-radius: 3px; font-weight: 700; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; transition: background .2s; }
+.nav-cta:hover { background: var(--gold-light); }
+.hero { min-height: 100vh; display: flex; align-items: center; padding: 100px 5% 60px; position: relative; overflow: hidden; }
+.hero::before { content: '♔'; position: absolute; right: 3%; top: 50%; transform: translateY(-50%); font-size: 35vw; color: rgba(201,168,76,.04); pointer-events: none; line-height: 1; }
+.hero-content { max-width: 620px; }
+.eyebrow { color: var(--gold); font-size: .7rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase; margin-bottom: 1.25rem; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem,5vw,4.8rem); line-height: 1.08; margin-bottom: 1.5rem; }
+.hero h1 em { color: var(--gold); font-style: normal; }
+.hero p { color: var(--secondary); font-size: 1.05rem; line-height: 1.85; margin-bottom: 2.5rem; max-width: 480px; }
+.ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn { display: inline-block; padding: .85rem 2rem; border-radius: 3px; font-weight: 600; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; transition: all .2s; }
+.btn-gold { background: var(--gold); color: var(--dark); }
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+.btn-outline { border: 1px solid var(--gold); color: var(--gold); }
+.btn-outline:hover { background: rgba(201,168,76,.08); }
+.badges { display: flex; gap: 2.5rem; margin-top: 3rem; flex-wrap: wrap; }
+.badge { display: flex; align-items: center; gap: .6rem; }
+.badge-icon { width: 34px; height: 34px; border-radius: 50%; background: rgba(201,168,76,.12); display: flex; align-items: center; justify-content: center; font-size: .95rem; flex-shrink: 0; }
+.badge-text strong { display: block; font-size: .8rem; color: var(--secondary); font-weight: 600; }
+.badge-text span { font-size: .72rem; color: var(--muted); }
+section { padding: 5.5rem 5%; }
+.sec-head { text-align: center; margin-bottom: 3.5rem; }
+.sec-eye { color: var(--gold); font-size: .68rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase; margin-bottom: .6rem; }
+.sec-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,3vw,2.6rem); }
+.sec-sub { color: var(--muted); margin-top: .6rem; font-size: .9rem; }
+.divider { width: 36px; height: 2px; background: var(--gold); margin: .9rem auto 0; }
+#services { background: var(--card); }
+.size-tabs { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.size-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: .55rem 1.4rem; border-radius: 3px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: .8rem; font-weight: 500; transition: all .2s; line-height: 1.4; text-align: center; }
+.size-btn.active, .size-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--dark); font-weight: 700; }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; }
+.svc-card { background: var(--dark); border: 1px solid var(--border); border-radius: 8px; padding: 1.75rem; transition: all .25s; position: relative; overflow: hidden; }
+.svc-card:hover { border-color: rgba(201,168,76,.5); transform: translateY(-2px); }
+.svc-card.featured { border-color: var(--gold); }
+.feat-badge { position: absolute; top: 1rem; right: 1rem; background: var(--gold); color: var(--dark); font-size: .6rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: .2rem .5rem; border-radius: 2px; }
+.svc-icon { font-size: 1.4rem; margin-bottom: .9rem; }
+.svc-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: .4rem; }
+.svc-desc { color: var(--muted); font-size: .8rem; line-height: 1.6; margin-bottom: 1.25rem; }
+.svc-list { list-style: none; margin-bottom: 1.5rem; }
+.svc-list li { font-size: .78rem; color: var(--secondary); padding: .28rem 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: .5rem; }
+.svc-list li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+.svc-price { font-size: 1.9rem; font-weight: 700; color: var(--gold); line-height: 1; }
+.svc-price small { font-size: .8rem; color: var(--muted); font-weight: 400; }
+.addons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: .9rem; }
+.addon { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 1.1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; transition: border-color .2s; }
+.addon:hover { border-color: rgba(201,168,76,.4); }
+.addon-name { font-size: .88rem; font-weight: 500; }
+.addon-price { color: var(--gold); font-weight: 700; font-size: .88rem; }
+#gallery { background: var(--card); }
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+.gal-item { aspect-ratio: 4/3; background: var(--card2); border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); font-size: .75rem; gap: .5rem; }
+.gal-item span { font-size: 1.5rem; }
+.loyalty-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.l-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; }
+.l-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); margin-bottom: .5rem; }
+.l-card p { color: var(--muted); font-size: .85rem; line-height: 1.75; }
+.punch-row { display: flex; gap: .6rem; margin-top: 1.25rem; flex-wrap: wrap; }
+.punch { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: .95rem; color: var(--gold); }
+.punch.filled { background: var(--gold); color: var(--dark); }
+.punch.free { border-color: #555; color: #555; }
+.punch-note { font-size: .72rem; color: var(--muted); margin-top: .6rem; }
+.m-options { display: flex; flex-direction: column; gap: .75rem; margin-top: 1.25rem; }
+.m-opt { background: var(--dark); border: 1px solid var(--border); border-radius: 6px; padding: .9rem 1.1rem; display: flex; justify-content: space-between; align-items: center; }
+.m-opt-name { font-size: .88rem; font-weight: 600; }
+.m-opt-freq { font-size: .72rem; color: var(--muted); margin-top: .15rem; }
+.m-opt-price { color: var(--gold); font-weight: 700; font-size: .95rem; }
+#about { background: var(--card); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.about-img { aspect-ratio: 4/3; background: var(--card2); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .8rem; }
+.about-content .eyebrow { display: block; margin-bottom: .75rem; }
+.about-content h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1.1rem; }
+.about-content p { color: var(--muted); line-height: 1.85; margin-bottom: 1.25rem; font-size: .92rem; }
+.pillars { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin-top: 1.5rem; }
+.pillar { background: var(--dark); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; }
+.pillar-icon { font-size: 1.2rem; margin-bottom: .4rem; }
+.pillar-title { font-size: .82rem; font-weight: 700; margin-bottom: .2rem; }
+.pillar-desc { font-size: .72rem; color: var(--muted); line-height: 1.5; }
+#area { text-align: center; }
+.area-note { color: var(--muted); font-size: .88rem; max-width: 480px; margin: 0 auto 2rem; line-height: 1.8; }
+.area-tags { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; max-width: 680px; margin: 0 auto; }
+.area-tag { background: var(--card); border: 1px solid var(--border); color: var(--secondary); padding: .38rem .9rem; border-radius: 20px; font-size: .78rem; }
+.cta-banner { background: linear-gradient(135deg, #100e00, #0A0A0A); border-top: 1px solid rgba(201,168,76,.2); border-bottom: 1px solid rgba(201,168,76,.2); text-align: center; padding: 5.5rem 5%; }
+.cta-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,3vw,2.8rem); margin-bottom: .9rem; }
+.cta-banner p { color: var(--muted); margin-bottom: 2rem; font-size: .95rem; }
+#contact { text-align: center; padding: 4rem 5%; }
+.contact-links { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem; }
+.contact-link { display: flex; align-items: center; gap: .5rem; color: var(--secondary); text-decoration: none; font-size: .9rem; transition: color .2s; }
+.contact-link:hover { color: var(--gold); }
+footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.f-logo { display: flex; align-items: center; gap: .6rem; }
+.f-logo img { height: 28px; width: 28px; object-fit: contain; }
+.f-logo-text { font-family: 'Playfair Display', serif; color: var(--gold); font-size: .9rem; }
+.f-copy { color: var(--muted); font-size: .72rem; }
+.f-top { color: var(--muted); font-size: .72rem; text-decoration: none; }
+.f-top:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .loyalty-grid, .about-grid { grid-template-columns: 1fr; }
+  .about-img { display: none; }
+  .badges { gap: 1.25rem; }
+  footer { flex-direction: column; text-align: center; }
+  .hero::before { font-size: 55vw; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#home" class="logo">
+    <img src="logo.png" alt="Crown Quality Detailing Logo">
+    <span class="logo-text">Crown Quality Detailing</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#loyalty">Membership</a></li>
+    <li><a href="#area">Service Area</a></li>
+  </ul>
+  <a href="#book" class="nav-cta">Book Now</a>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <p class="eyebrow">Premium Mobile Auto Detailing · Barrington, IL</p>
+    <h1>Royal Treatment<br>for Your <em>Vehicle</em></h1>
+    <p>Crown Quality Detailing brings a royal feel back to your car. We prioritize exceptional cleanliness while protecting both your vehicle and the environment using professional-grade, biodegradable products delivered right to your driveway.</p>
+    <div class="ctas">
+      <a href="#book" class="btn btn-gold">Book an Appointment</a>
+      <a href="#services" class="btn btn-outline">View Services</a>
+    </div>
+    <div class="badges">
+      <div class="badge"><div class="badge-icon">🌿</div><div class="badge-text"><strong>Eco-Friendly</strong><span>Biodegradable products</span></div></div>
+      <div class="badge"><div class="badge-icon">🚗</div><div class="badge-text"><strong>Mobile Service</strong><span>We come to you</span></div></div>
+      <div class="badge"><div class="badge-icon">♔</div><div class="badge-text"><strong>Premium Quality</strong><span>Every detail matters</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="sec-head">
+    <p class="sec-eye">What We Offer</p>
+    <h2 class="sec-title">Our Services</h2>
+    <div class="divider"></div>
+    <p class="sec-sub">Select your vehicle size to see pricing</p>
+  </div>
+  <div class="size-tabs">
+    <button class="size-btn active" onclick="setSize(this,'S')">Small<br><span style="font-size:.65rem;opacity:.6">Sedan / Coupe</span></button>
+    <button class="size-btn" onclick="setSize(this,'M')">Medium<br><span style="font-size:.65rem;opacity:.6">Midsize / 2-Row</span></button>
+    <button class="size-btn" onclick="setSize(this,'L')">Large<br><span style="font-size:.65rem;opacity:.6">3-Row SUV / Minivan</span></button>
+    <button class="size-btn" onclick="setSize(this,'XL')">XL<br><span style="font-size:.65rem;opacity:.6">Truck / Full-Size Pickup</span></button>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card">
+      <div class="svc-icon">✨</div>
+      <div class="svc-name">Basic In &amp; Out</div>
+      <div class="svc-desc">A quick, thorough refresh inside and out. Perfect for routine upkeep between full details.</div>
+      <ul class="svc-list">
+        <li>Exterior hand wash and dry</li>
+        <li>Interior vacuum</li>
+        <li>Dashboard and console wipe down</li>
+        <li>Window cleaning</li>
+        <li>Tire dressing</li>
+      </ul>
+      <div class="svc-price" id="p-basic">$75 <small>/ S</small></div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">🪣</div>
+      <div class="svc-name">Exterior Detail</div>
+      <div class="svc-desc">A full exterior treatment that restores shine and keeps your paint protected.</div>
+      <ul class="svc-list">
+        <li>Foam pre-wash and hand wash</li>
+        <li>Rim and wheel well cleaning</li>
+        <li>Ceramic spray sealant protection</li>
+        <li>Window and glass cleaning</li>
+        <li>Tire dressing</li>
+      </ul>
+      <div class="svc-price" id="p-exterior">$85 <small>/ S</small></div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">🛋️</div>
+      <div class="svc-name">Interior Detail</div>
+      <div class="svc-desc">A deep clean of every surface inside your vehicle, restored and protected.</div>
+      <ul class="svc-list">
+        <li>Full vacuum and shampoo</li>
+        <li>Stain and odor removal</li>
+        <li>Dashboard, door and console detail</li>
+        <li>Trim and vinyl protectant applied</li>
+        <li>Window and mirror cleaning</li>
+        <li>Air freshener included</li>
+      </ul>
+      <div class="svc-price" id="p-interior">$145 <small>/ S</small></div>
+    </div>
+    <div class="svc-card featured">
+      <div class="feat-badge">Most Popular</div>
+      <div class="svc-icon">♔</div>
+      <div class="svc-name">Royal Package</div>
+      <div class="svc-desc">Our signature full detail. The complete Crown treatment, inside and out.</div>
+      <ul class="svc-list">
+        <li>Full exterior detail</li>
+        <li>Full interior detail</li>
+        <li>Clay bar treatment</li>
+        <li>Leather conditioning</li>
+        <li>Trim, vinyl and rubber protectant</li>
+      </ul>
+      <div class="svc-price" id="p-royal">$200 <small>/ S</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="addons">
+  <div class="sec-head">
+    <p class="sec-eye">Customize Your Detail</p>
+    <h2 class="sec-title">Add-On Services</h2>
+    <div class="divider"></div>
+    <p class="sec-sub">Upgrade any service with our a la carte extras</p>
+  </div>
+  <div class="addons-grid">
+    <div class="addon"><div class="addon-name">Clay Bar Treatment</div><div class="addon-price">+$45</div></div>
+    <div class="addon"><div class="addon-name">Leather Conditioning</div><div class="addon-price">+$40</div></div>
+    <div class="addon"><div class="addon-name">Headlight Restoration</div><div class="addon-price">+$50</div></div>
+    <div class="addon"><div class="addon-name">Engine Bay Cleaning</div><div class="addon-price">+$65</div></div>
+    <div class="addon"><div class="addon-name">Ozone Treatment</div><div class="addon-price">+$55</div></div>
+    <div class="addon"><div class="addon-name">Pet Hair Removal</div><div class="addon-price">+$35</div></div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="sec-head">
+    <p class="sec-eye">The Results</p>
+    <h2 class="sec-title">Before and After</h2>
+    <div class="divider"></div>
+    <p class="sec-sub">Follow us on Instagram for more &nbsp;<a href="https://instagram.com/crownqualitydetailing" target="_blank" style="color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:.3rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>@crownqualitydetailing</a></p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gal-item"><span>📸</span>Before / After Photo</div>
+    <div class="gal-item"><span>📸</span>Before / After Photo</div>
+    <div class="gal-item"><span>📸</span>Before / After Photo</div>
+    <div class="gal-item"><span>📸</span>Before / After Photo</div>
+    <div class="gal-item"><span>📸</span>Before / After Photo</div>
+    <div class="gal-item"><span>📸</span>Before / After Photo</div>
+  </div>
+</section>
+
+<section id="loyalty">
+  <div class="sec-head">
+    <p class="sec-eye">Crown Members</p>
+    <h2 class="sec-title">Loyalty and Maintenance</h2>
+    <div class="divider"></div>
+    <p class="sec-sub">Rewards for clients who keep the Crown standard</p>
+  </div>
+  <div class="loyalty-grid">
+    <div class="l-card">
+      <h3>Crown Loyalty Card</h3>
+      <p>Book 4 details and your 5th is on us. Works across any service tier. Ask for your card at your first appointment.</p>
+      <div class="punch-row">
+        <div class="punch filled">♔</div>
+        <div class="punch filled">♔</div>
+        <div class="punch filled">♔</div>
+        <div class="punch">♔</div>
+        <div class="punch free">★</div>
+      </div>
+      <p class="punch-note">4 details completed, 5th is free ★</p>
+    </div>
+    <div class="l-card">
+      <h3>Maintenance Plans</h3>
+      <p>Recommended after a Royal or Interior detail. A maintenance plan is more comprehensive than a basic visit and keeps your vehicle at Crown standard between full details.</p>
+      <div class="m-options">
+        <div class="m-opt">
+          <div>
+            <div class="m-opt-name">Crown Refresh</div>
+            <div class="m-opt-freq">Monthly · Exterior wash, interior wipe down, trim and vinyl protection</div>
+          </div>
+          <div class="m-opt-price">$90</div>
+        </div>
+        <div class="m-opt">
+          <div>
+            <div class="m-opt-name">Crown Maintain</div>
+            <div class="m-opt-freq">Every 6 weeks · Full exterior detail and interior refresh</div>
+          </div>
+          <div class="m-opt-price">$125</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img">[ Photo ]</div>
+    <div class="about-content">
+      <span class="eyebrow">Who We Are</span>
+      <h2>The Crown Standard</h2>
+      <p>Crown Quality Detailing is a premium mobile detailing service based in Barrington, IL. We come to you at home, at work, or wherever your vehicle is parked and treat it with the care it deserves.</p>
+      <p>Every product we use is biodegradable and professional-grade. We don't cut corners on chemistry or time. When we leave, your car looks better than it has in years.</p>
+      <div class="pillars">
+        <div class="pillar"><div class="pillar-icon">🌿</div><div class="pillar-title">Eco-Friendly</div><div class="pillar-desc">Biodegradable, professional-grade products only</div></div>
+        <div class="pillar"><div class="pillar-icon">📍</div><div class="pillar-title">Fully Mobile</div><div class="pillar-desc">We come to your home or office</div></div>
+        <div class="pillar"><div class="pillar-icon">🔍</div><div class="pillar-title">Detail-Focused</div><div class="pillar-desc">No shortcuts, no rushing</div></div>
+        <div class="pillar"><div class="pillar-icon">♔</div><div class="pillar-title">Premium Results</div><div class="pillar-desc">Crown-standard finish every time</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="area">
+  <div class="sec-head">
+    <p class="sec-eye">Where We Go</p>
+    <h2 class="sec-title">Service Area</h2>
+    <div class="divider"></div>
+  </div>
+  <p class="area-note">Based in Barrington, IL. We serve the surrounding communities. A travel surcharge applies for locations outside our primary zone. Contact us to confirm availability at your address.</p>
+  <div class="area-tags">
+    <span class="area-tag">Barrington</span>
+    <span class="area-tag">Buffalo Grove</span>
+    <span class="area-tag">Lake Zurich</span>
+    <span class="area-tag">Palatine</span>
+    <span class="area-tag">Inverness</span>
+    <span class="area-tag">Deer Park</span>
+    <span class="area-tag">Long Grove</span>
+    <span class="area-tag">Hawthorn Woods</span>
+    <span class="area-tag">Arlington Heights</span>
+    <span class="area-tag">+ Surrounding Areas</span>
+  </div>
+</section>
+
+<div class="cta-banner" id="book">
+  <h2>Ready for the Royal Treatment?</h2>
+  <p>Book your appointment online in minutes. We come to you, no drop-off needed.</p>
+  <a href="YOUR_SQUARE_BOOKING_LINK" class="btn btn-gold">Book Now</a>
+</div>
+
+<section id="contact">
+  <p class="sec-eye">Get In Touch</p>
+  <h2 style="font-family:'Playfair Display',serif;font-size:2rem;margin-top:.5rem">Contact Us</h2>
+  <div class="contact-links">
+    <a href="mailto:info@crownqualitydetailing.com" class="contact-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      info@crownqualitydetailing.com
+    </a>
+    <a href="https://instagram.com/crownqualitydetailing" target="_blank" class="contact-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      @crownqualitydetailing
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">
+    <img src="logo.png" alt="Crown Quality Detailing">
+    <span class="f-logo-text">Crown Quality Detailing</span>
+  </div>
+  <div class="f-copy">© 2026 Crown Quality Detailing · Barrington, IL · Mobile Auto Detailing</div>
+  <a href="#home" class="f-top">Back to top</a>
+</footer>
+
+<script>
+const prices = {
+  S:  { basic: 75,  exterior: 85,  interior: 145, royal: 200 },
+  M:  { basic: 85,  exterior: 100, interior: 165, royal: 235 },
+  L:  { basic: 95,  exterior: 120, interior: 185, royal: 265 },
+  XL: { basic: 105, exterior: 130, interior: 210, royal: 295 }
+};
+function setSize(btn, size) {
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const p = prices[size];
+  document.getElementById('p-basic').innerHTML    = `$${p.basic} <small>/ ${size}</small>`;
+  document.getElementById('p-exterior').innerHTML = `$${p.exterior} <small>/ ${size}</small>`;
+  document.getElementById('p-interior').innerHTML = `$${p.interior} <small>/ ${size}</small>`;
+  document.getElementById('p-royal').innerHTML    = `$${p.royal} <small>/ ${size}</small>`;
+}
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
