@@ -22,8 +22,8 @@ nav { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(10,1
 .hero { min-height: 100vh; display: flex; align-items: center; padding: 100px 5% 60px; position: relative; overflow: hidden; gap: 2rem; justify-content: space-between; }
 .hero-content { max-width: 580px; flex-shrink: 0; }
 .hero-logo-wrap { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.hero-logo-wrap img { width: clamp(280px, 32vw, 480px); height: clamp(280px, 32vw, 480px); object-fit: contain; opacity: 0.18; filter: invert(1); transition: opacity .3s; }
-.hero-logo-wrap img:hover { opacity: 0.28; }
+.hero-logo-wrap img { width: clamp(300px, 34vw, 500px); height: clamp(300px, 34vw, 500px); object-fit: contain; opacity: 0.75; filter: invert(1); mix-blend-mode: screen; transition: opacity .3s; }
+.hero-logo-wrap img:hover { opacity: 0.9; }
 .eyebrow { color: var(--gold); font-size: .7rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase; margin-bottom: 1.25rem; }
 .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem,5vw,4.8rem); line-height: 1.08; margin-bottom: 1.5rem; }
 .hero h1 em { color: var(--gold); font-style: normal; }
@@ -62,6 +62,18 @@ section { padding: 5.5rem 5%; }
 .svc-list li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
 .svc-price { font-size: 1.9rem; font-weight: 700; color: var(--gold); line-height: 1; }
 .svc-price small { font-size: .8rem; color: var(--muted); font-weight: 400; }
+.vehicle-finder { background: var(--dark); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+.finder-label { font-size: .8rem; color: var(--muted); margin-bottom: .75rem; text-align: center; }
+.finder-row { display: flex; gap: .5rem; }
+.finder-input { flex: 1; background: var(--card2); border: 1px solid var(--border); color: var(--text); padding: .65rem 1rem; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: .85rem; outline: none; transition: border-color .2s; }
+.finder-input:focus { border-color: var(--gold); }
+.finder-input::placeholder { color: var(--muted); }
+.finder-btn { background: var(--gold); color: var(--dark); border: none; padding: .65rem 1.25rem; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: .82rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background .2s; }
+.finder-btn:hover { background: var(--gold-light); }
+.finder-result { font-size: .82rem; margin-top: .6rem; text-align: center; min-height: 1.2rem; }
+.finder-result.found { color: var(--gold); }
+.finder-result.notfound { color: var(--muted); }
+
 .addons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: .9rem; }
 .addon { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 1.1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; transition: border-color .2s; }
 .addon:hover { border-color: rgba(201,168,76,.4); }
@@ -204,6 +216,14 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
     <h2 class="sec-title">Our Services</h2>
     <div class="divider"></div>
     <p class="sec-sub">Select your vehicle size to see pricing</p>
+  </div>
+  <div class="vehicle-finder">
+    <p class="finder-label">Not sure what size your vehicle is?</p>
+    <div class="finder-row">
+      <input type="text" id="vehicleInput" class="finder-input" placeholder="e.g. 2022 Ford F-150, Honda Pilot, Tesla Model Y..." autocomplete="off">
+      <button class="finder-btn" onclick="classifyVehicle()">Find My Size</button>
+    </div>
+    <p class="finder-result" id="finderResult"></p>
   </div>
   <div class="size-tabs">
     <button class="size-btn active" onclick="setSize(this,'S')">Small<br><span style="font-size:.65rem;opacity:.6">Sedan / Coupe</span></button>
@@ -416,6 +436,116 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
 </footer>
 
 <script>
+// Vehicle classifier
+const vehicles = {
+  // XL - Full-size trucks
+  'f-150':['XL'],'f150':['XL'],'f-250':['XL'],'f250':['XL'],'f-350':['XL'],'f350':['XL'],
+  'silverado 1500':['XL'],'silverado 2500':['XL'],'silverado 3500':['XL'],'silverado':['XL'],
+  'sierra 1500':['XL'],'sierra 2500':['XL'],'sierra':['XL'],
+  'ram 1500':['XL'],'ram 2500':['XL'],'ram 3500':['XL'],
+  'tundra':['XL'],'titan':['XL'],'ridgeline':['XL'],
+  'tacoma':['M'],'colorado':['M'],'canyon':['M'],'ranger':['M'],'maverick':['S'],
+  // L - 3-row SUVs and minivans
+  'suburban':['L'],'tahoe':['L'],'yukon xl':['L'],'yukon':['L'],
+  'expedition':['L'],'navigator':['L'],'sequoia':['L'],'land cruiser':['L'],
+  'armada':['L'],'traverse':['L'],'enclave':['L'],'acadia':['L'],
+  'atlas':['L'],'ascent':['L'],'pilot':['L'],'pathfinder':['L'],
+  'highlander':['L'],'4runner':['L'],'durango':['L'],
+  'explorer':['L'],'flex':['L'],'expedition max':['L'],
+  'escalade':['L'],'lx':['L'],'gx':['L'],
+  'q7':['L'],'q8':['L'],'x7':['L'],'gls':['L'],'gle':['L'],
+  'range rover':['L'],'defender':['L'],
+  'xc90':['L'],'volvo xc90':['L'],
+  'odyssey':['L'],'sienna':['L'],'carnival':['L'],'pacifica':['L'],
+  'model x':['L'],
+  // M - Midsize crossovers and sedans
+  'rav4':['M'],'cr-v':['M'],'crv':['M'],'hrv':['S'],'hr-v':['S'],
+  'escape':['M'],'edge':['M'],'bronco sport':['M'],'bronco':['L'],
+  'equinox':['M'],'blazer':['M'],'trailblazer':['S'],'trax':['S'],
+  'rogue':['M'],'murano':['M'],'kicks':['S'],
+  'forester':['M'],'outback':['M'],'crosstrek':['S'],
+  'cx-5':['M'],'cx5':['M'],'cx-9':['L'],'cx-50':['M'],
+  'tucson':['M'],'santa fe':['L'],'kona':['S'],'palisade':['L'],
+  'sportage':['M'],'telluride':['L'],'sorento':['L'],'seltos':['S'],
+  'compass':['M'],'grand cherokee':['L'],'cherokee':['M'],'wrangler':['M'],
+  'tiguan':['M'],'atlas cross sport':['M'],'taos':['S'],
+  'q3':['S'],'q5':['M'],'q5 sportback':['M'],
+  'x1':['S'],'x3':['M'],'x5':['L'],'x6':['M'],
+  'glb':['S'],'glc':['M'],'gla':['S'],
+  'macan':['S'],'cayenne':['L'],
+  'f-pace':['M'],'e-pace':['S'],'i-pace':['M'],
+  'xc40':['S'],'xc60':['M'],
+  'rdx':['M'],'mdx':['L'],
+  'nx':['M'],'rx':['L'],'ux':['S'],
+  'accord':['M'],'camry':['M'],'altima':['M'],'malibu':['M'],
+  'fusion':['M'],'sonata':['M'],'k5':['M'],'optima':['M'],
+  'passat':['M'],'arteon':['M'],'mazda6':['M'],
+  'legacy':['M'],'impreza':['S'],
+  '5 series':['M'],'7 series':['M'],'6 series':['M'],
+  'a6':['M'],'a7':['M'],'a8':['M'],
+  'e-class':['M'],'s-class':['M'],'cls':['M'],
+  'model y':['M'],'model s':['M'],
+  'charger':['M'],'challenger':['M'],'300':['M'],
+  'ct5':['M'],'ct6':['M'],
+  'continental':['M'],'aviator':['L'],
+  'genesis g80':['M'],'genesis g90':['M'],'gv80':['L'],'gv70':['M'],
+  // S - Small sedans, coupes, hatchbacks
+  'civic':['S'],'corolla':['S'],'sentra':['S'],'elantra':['S'],
+  'forte':['S'],'golf':['S'],'jetta':['S'],'polo':['S'],
+  'fit':['S'],'yaris':['S'],'versa':['S'],'mirage':['S'],
+  'fiesta':['S'],'focus':['S'],'spark':['S'],'sonic':['S'],'cruze':['S'],
+  'model 3':['S'],
+  'mustang':['S'],'camaro':['S'],
+  '3 series':['S'],'m3':['S'],'m4':['S'],'2 series':['S'],'1 series':['S'],
+  'a3':['S'],'a4':['S'],'a5':['S'],'tt':['S'],
+  'c-class':['S'],'cla':['S'],'a-class':['S'],
+  'is':['S'],'gs':['M'],'ls':['M'],
+  'ilx':['S'],'tlx':['M'],
+  'miata':['S'],'mazda3':['S'],
+  '911':['S'],'718':['S'],'boxster':['S'],'cayman':['S'],'panamera':['M'],
+  'ats':['S'],'ct4':['S'],
+  'genesis g70':['S'],
+};
+
+const sizeNames = { S: 'Small (Sedan / Coupe)', M: 'Medium (Midsize / 2-Row)', L: 'Large (3-Row SUV / Minivan)', XL: 'XL (Truck / Full-Size Pickup)' };
+
+function classifyVehicle() {
+  const input = document.getElementById('vehicleInput').value.toLowerCase().trim();
+  const result = document.getElementById('finderResult');
+  if (!input) { result.textContent = ''; return; }
+
+  let found = null;
+  // Sort keys by length desc so longer/more-specific matches win
+  const keys = Object.keys(vehicles).sort((a,b) => b.length - a.length);
+  for (const key of keys) {
+    if (input.includes(key)) { found = vehicles[key][0]; break; }
+  }
+
+  // Keyword fallbacks for unknown models
+  if (!found) {
+    if (/\b(truck|pickup|f[\-\s]?150|f[\-\s]?250|f[\-\s]?350)\b/.test(input)) found = 'XL';
+    else if (/\b(suburban|tahoe|expedition|yukon|sequoia|armada|minivan|van|3[\-\s]row|7[\-\s]seat|8[\-\s]seat)\b/.test(input)) found = 'L';
+    else if (/\b(suv|crossover|explorer|pilot|pathfinder|4runner|highlander)\b/.test(input)) found = 'M';
+    else if (/\b(sedan|coupe|hatch|compact)\b/.test(input)) found = 'S';
+  }
+
+  if (found) {
+    result.textContent = `Detected: ${sizeNames[found]} — pricing updated below.`;
+    result.className = 'finder-result found';
+    const btns = document.querySelectorAll('.size-btn');
+    const sizes = ['S','M','L','XL'];
+    const idx = sizes.indexOf(found);
+    if (idx >= 0) btns[idx].click();
+  } else {
+    result.textContent = 'Vehicle not recognized — please select your size manually below.';
+    result.className = 'finder-result notfound';
+  }
+}
+
+document.getElementById('vehicleInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') classifyVehicle();
+});
+
 const ham = document.getElementById('hamburger');
 const mob = document.getElementById('mobileMenu');
 ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
