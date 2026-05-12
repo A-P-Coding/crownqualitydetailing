@@ -22,8 +22,8 @@ nav { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(10,1
 .hero { min-height: 100vh; display: flex; align-items: center; padding: 100px 5% 60px; position: relative; overflow: hidden; gap: 2rem; justify-content: space-between; }
 .hero-content { max-width: 580px; flex-shrink: 0; }
 .hero-logo-wrap { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.hero-logo-wrap img { width: clamp(300px, 34vw, 500px); height: clamp(300px, 34vw, 500px); object-fit: contain; opacity: 0.75; filter: invert(1); mix-blend-mode: screen; transition: opacity .3s; }
-.hero-logo-wrap img:hover { opacity: 0.9; }
+.hero-logo-wrap img { width: clamp(300px, 34vw, 500px); height: clamp(300px, 34vw, 500px); object-fit: contain; opacity: 0.82; mix-blend-mode: screen; transition: opacity .3s; }
+.hero-logo-wrap img:hover { opacity: 0.95; }
 .eyebrow { color: var(--gold); font-size: .7rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase; margin-bottom: 1.25rem; }
 .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem,5vw,4.8rem); line-height: 1.08; margin-bottom: 1.5rem; }
 .hero h1 em { color: var(--gold); font-style: normal; }
@@ -436,108 +436,228 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
 </footer>
 
 <script>
-// Vehicle classifier
-const vehicles = {
-  // XL - Full-size trucks
-  'f-150':['XL'],'f150':['XL'],'f-250':['XL'],'f250':['XL'],'f-350':['XL'],'f350':['XL'],
-  'silverado 1500':['XL'],'silverado 2500':['XL'],'silverado 3500':['XL'],'silverado':['XL'],
-  'sierra 1500':['XL'],'sierra 2500':['XL'],'sierra':['XL'],
-  'ram 1500':['XL'],'ram 2500':['XL'],'ram 3500':['XL'],
-  'tundra':['XL'],'titan':['XL'],'ridgeline':['XL'],
-  'tacoma':['M'],'colorado':['M'],'canyon':['M'],'ranger':['M'],'maverick':['S'],
-  // L - 3-row SUVs and minivans
-  'suburban':['L'],'tahoe':['L'],'yukon xl':['L'],'yukon':['L'],
-  'expedition':['L'],'navigator':['L'],'sequoia':['L'],'land cruiser':['L'],
-  'armada':['L'],'traverse':['L'],'enclave':['L'],'acadia':['L'],
-  'atlas':['L'],'ascent':['L'],'pilot':['L'],'pathfinder':['L'],
-  'highlander':['L'],'4runner':['L'],'durango':['L'],
-  'explorer':['L'],'flex':['L'],'expedition max':['L'],
-  'escalade':['L'],'lx':['L'],'gx':['L'],
-  'q7':['L'],'q8':['L'],'x7':['L'],'gls':['L'],'gle':['L'],
-  'range rover':['L'],'defender':['L'],
-  'xc90':['L'],'volvo xc90':['L'],
-  'odyssey':['L'],'sienna':['L'],'carnival':['L'],'pacifica':['L'],
-  'model x':['L'],
-  // M - Midsize crossovers and sedans
-  'rav4':['M'],'cr-v':['M'],'crv':['M'],'hrv':['S'],'hr-v':['S'],
-  'escape':['M'],'edge':['M'],'bronco sport':['M'],'bronco':['L'],
-  'equinox':['M'],'blazer':['M'],'trailblazer':['S'],'trax':['S'],
-  'rogue':['M'],'murano':['M'],'kicks':['S'],
-  'forester':['M'],'outback':['M'],'crosstrek':['S'],
-  'cx-5':['M'],'cx5':['M'],'cx-9':['L'],'cx-50':['M'],
-  'tucson':['M'],'santa fe':['L'],'kona':['S'],'palisade':['L'],
-  'sportage':['M'],'telluride':['L'],'sorento':['L'],'seltos':['S'],
-  'compass':['M'],'grand cherokee':['L'],'cherokee':['M'],'wrangler':['M'],
-  'tiguan':['M'],'atlas cross sport':['M'],'taos':['S'],
-  'q3':['S'],'q5':['M'],'q5 sportback':['M'],
-  'x1':['S'],'x3':['M'],'x5':['L'],'x6':['M'],
-  'glb':['S'],'glc':['M'],'gla':['S'],
-  'macan':['S'],'cayenne':['L'],
-  'f-pace':['M'],'e-pace':['S'],'i-pace':['M'],
-  'xc40':['S'],'xc60':['M'],
-  'rdx':['M'],'mdx':['L'],
-  'nx':['M'],'rx':['L'],'ux':['S'],
-  'accord':['M'],'camry':['M'],'altima':['M'],'malibu':['M'],
-  'fusion':['M'],'sonata':['M'],'k5':['M'],'optima':['M'],
-  'passat':['M'],'arteon':['M'],'mazda6':['M'],
-  'legacy':['M'],'impreza':['S'],
-  '5 series':['M'],'7 series':['M'],'6 series':['M'],
-  'a6':['M'],'a7':['M'],'a8':['M'],
-  'e-class':['M'],'s-class':['M'],'cls':['M'],
-  'model y':['M'],'model s':['M'],
-  'charger':['M'],'challenger':['M'],'300':['M'],
-  'ct5':['M'],'ct6':['M'],
-  'continental':['M'],'aviator':['L'],
-  'genesis g80':['M'],'genesis g90':['M'],'gv80':['L'],'gv70':['M'],
-  // S - Small sedans, coupes, hatchbacks
-  'civic':['S'],'corolla':['S'],'sentra':['S'],'elantra':['S'],
-  'forte':['S'],'golf':['S'],'jetta':['S'],'polo':['S'],
-  'fit':['S'],'yaris':['S'],'versa':['S'],'mirage':['S'],
-  'fiesta':['S'],'focus':['S'],'spark':['S'],'sonic':['S'],'cruze':['S'],
-  'model 3':['S'],
-  'mustang':['S'],'camaro':['S'],
-  '3 series':['S'],'m3':['S'],'m4':['S'],'2 series':['S'],'1 series':['S'],
-  'a3':['S'],'a4':['S'],'a5':['S'],'tt':['S'],
-  'c-class':['S'],'cla':['S'],'a-class':['S'],
-  'is':['S'],'gs':['M'],'ls':['M'],
-  'ilx':['S'],'tlx':['M'],
-  'miata':['S'],'mazda3':['S'],
-  '911':['S'],'718':['S'],'boxster':['S'],'cayman':['S'],'panamera':['M'],
-  'ats':['S'],'ct4':['S'],
-  'genesis g70':['S'],
+// ── VEHICLE CLASSIFIER ──────────────────────────────────────────────
+const makeAliases = {
+  'chevy':'chevrolet','chev':'chevrolet','vw':'volkswagen','vw ':'volkswagen',
+  'mercedes benz':'mercedes','mercedes-benz':'mercedes','benz':'mercedes','merc ':'mercedes',
+  'land-rover':'land rover','landrover':'land rover','range-rover':'range rover',
+  'rangerovers':'range rover','rangerover':'range rover',
+  'infinity':'infiniti','infinty':'infiniti',
+  'cadi':'cadillac','caddy':'cadillac',
+  'lambo':'lamborghini','ferrari ':'ferrari',
+  'alfa':'alfa romeo','alfa-romeo':'alfa romeo',
+  'rolls':'rolls-royce','rolls royce':'rolls-royce',
 };
 
-const sizeNames = { S: 'Small (Sedan / Coupe)', M: 'Medium (Midsize / 2-Row)', L: 'Large (3-Row SUV / Minivan)', XL: 'XL (Truck / Full-Size Pickup)' };
+// Make-level defaults when only brand name is typed
+const makeDefaults = {
+  'lincoln':'L','cadillac':'L','genesis':'M','rivian':'XL','hummer':'XL',
+  'lamborghini':'S','ferrari':'S','maserati':'M','bentley':'M','rolls-royce':'M',
+  'polestar':'S','lucid':'M','fisker':'M',
+};
+
+const db = {
+  // ── XL: Full-size trucks ──
+  'f-150':'XL','f150':'XL','f 150':'XL','ford f-150':'XL','ford f150':'XL',
+  'f-250':'XL','f250':'XL','f-350':'XL','f350':'XL','f-450':'XL','f450':'XL',
+  'f-series':'XL',
+  'silverado 1500':'XL','silverado 2500':'XL','silverado 3500':'XL','silverado':'XL',
+  'sierra 1500':'XL','sierra 2500':'XL','sierra 3500':'XL','sierra':'XL',
+  'ram 1500':'XL','ram 2500':'XL','ram 3500':'XL','ram pickup':'XL',
+  'tundra':'XL','titan':'XL','titan xd':'XL',
+  'ridgeline':'XL','colorado':'M','canyon':'M','ranger':'M','maverick':'S',
+  'tacoma':'M','frontier':'M','mid-size truck':'M',
+  // ── L: 3-row SUVs, full-size SUVs, minivans ──
+  'suburban':'L','tahoe':'L',
+  'yukon xl':'L','yukon':'L',
+  'expedition':'L','expedition max':'L','expedition el':'L',
+  'navigator':'L','navigator l':'L','lincoln navigator':'L','lincoln navigator l':'L',
+  'sequoia':'L','land cruiser':'L','4runner':'L',
+  'armada':'L',
+  'traverse':'L','enclave':'L','acadia':'L',
+  'atlas':'L','atlas cross sport':'M',
+  'ascent':'L',
+  'pilot':'L','passport':'M',
+  'pathfinder':'L','murano':'M',
+  'highlander':'L','grand highlander':'L',
+  'explorer':'L','flex':'L',
+  'durango':'L','grand wagoneer':'L','wagoneer':'L',
+  'escalade':'L','escalade esv':'L',
+  'lx 570':'L','lx 600':'L','lx':'L','gx':'L','gx 460':'L','gx 550':'L',
+  'mdx':'L',
+  'xc90':'L','volvo xc90':'L',
+  'q7':'L','q8':'L','e-tron suv':'L',
+  'x7':'L','x5':'L',
+  'gls':'L','gle':'L','gl':'L',
+  'range rover':'L','range rover sport':'L','range rover velar':'M','range rover evoque':'S',
+  'defender 110':'L','defender 130':'L','defender':'L',
+  'cayenne':'L','cayenne coupe':'L',
+  'f-pace':'M',
+  'aviator':'L','lincoln aviator':'L',
+  'nautilus':'M','lincoln nautilus':'M',
+  'corsair':'S','lincoln corsair':'S',
+  'mkc':'S','lincoln mkc':'S',
+  'mkx':'M','lincoln mkx':'M',
+  'mkz':'M','lincoln mkz':'M','lincoln mks':'M','lincoln mkt':'L',
+  'lincoln continental':'M','continental':'M',
+  'odyssey':'L','sienna':'L','carnival':'L','pacifica':'L','chrysler pacifica':'L',
+  'voyager':'L','chrysler voyager':'L',
+  'model x':'L',
+  'palisade':'L','hyundai palisade':'L',
+  'telluride':'L','kia telluride':'L',
+  'sorento':'L','kia sorento':'L',
+  'santa fe':'L','hyundai santa fe':'L',
+  'rivian r1s':'L','r1s':'L',
+  'hummer ev suv':'L','hummer suv':'L',
+  // ── M: Midsize crossovers, midsize sedans ──
+  'rav4':'M','rav4 prime':'M','rav4 hybrid':'M',
+  'cr-v':'M','crv':'M','cr-v hybrid':'M',
+  'escape':'M','escape hybrid':'M','bronco sport':'M',
+  'equinox':'M','equinox ev':'M','blazer':'M','blazer ev':'M','trailblazer':'S',
+  'rogue':'M','rogue sport':'S',
+  'forester':'M','outback':'M',
+  'cx-5':'M','cx5':'M','cx-50':'M','cx-9':'L','cx-90':'L',
+  'tucson':'M','tucson hybrid':'M',
+  'sportage':'M','kia sportage':'M',
+  'compass':'M','grand cherokee':'L','cherokee':'M','wrangler':'M','wrangler 4xe':'M','gladiator':'XL',
+  'tiguan':'M','taos':'S',
+  'q3':'S','q5':'M','q5 sportback':'M',
+  'x1':'S','x2':'S','x3':'M','x4':'M','x6':'M',
+  'glb':'S','glc':'M','gla':'S','gle coupe':'M',
+  'macan':'S','macan ev':'S',
+  'e-pace':'S','i-pace':'M',
+  'xc40':'S','xc60':'M',
+  'rdx':'M','tlx':'M',
+  'nx':'M','rx':'L','rx hybrid':'L','ux':'S',
+  'accord':'M','accord hybrid':'M',
+  'camry':'M','camry hybrid':'M',
+  'altima':'M',
+  'malibu':'M',
+  'fusion':'M','fusion hybrid':'M','fusion energi':'M',
+  'sonata':'M','sonata hybrid':'M',
+  'k5':'M','kia k5':'M','optima':'M','kia optima':'M',
+  'passat':'M','arteon':'M',
+  'mazda6':'M','mazda 6':'M',
+  'legacy':'M',
+  '5 series':'M','530':'M','540':'M','550':'M',
+  '7 series':'M','740':'M','750':'M','760':'M',
+  '6 series':'M','640':'M','650':'M','m5':'M','m8':'M',
+  'a6':'M','a7':'M','a8':'M','s6':'M','s7':'M','s8':'M',
+  'e-class':'M','e300':'M','e350':'M','e400':'M','e450':'M','e500':'M',
+  's-class':'M','s500':'M','s550':'M','s580':'M','s600':'M',
+  'cls':'M','cls450':'M','cls550':'M',
+  'panamera':'M',
+  'ghibli':'M','levante':'L','maserati levante':'L',
+  'gv80':'L','genesis gv80':'L','gv70':'M','genesis gv70':'M',
+  'g80':'M','genesis g80':'M','g90':'M','genesis g90':'M',
+  'model y':'M','model s':'M',
+  'ioniq 5':'M','ioniq 6':'M','hyundai ioniq 5':'M',
+  'ev6':'M','kia ev6':'M','ev9':'L','kia ev9':'L',
+  'charger':'M','challenger':'M','300':'M','chrysler 300':'M',
+  'ct5':'M','ct6':'M','xt5':'M','xt6':'L',
+  'rivian r1t':'XL','r1t':'XL',
+  'hummer ev truck':'XL','hummer truck':'XL',
+  'bronco':'L','ford bronco':'L',
+  // ── S: Small sedans, coupes, hatchbacks, compacts ──
+  'civic':'S','civic si':'S','civic type r':'S',
+  'corolla':'S','corolla cross':'M',
+  'sentra':'S','versa':'S',
+  'elantra':'S','elantra n':'S','elantra hybrid':'S',
+  'forte':'S','kia forte':'S',
+  'golf':'S','golf gti':'S','golf r':'S','jetta':'S','polo':'S',
+  'fit':'S','hr-v':'S','hrv':'S',
+  'yaris':'S','mirage':'S',
+  'fiesta':'S','focus':'S',
+  'spark':'S','sonic':'S','cruze':'S','trax':'S',
+  'model 3':'S','tesla model 3':'S',
+  'mustang':'S','mustang mach-e':'M','mach-e':'M',
+  'camaro':'S','corvette':'S',
+  '3 series':'S','330':'S','340':'S','m3':'S','m4':'S',
+  '2 series':'S','230':'S','240':'S','m2':'S',
+  '1 series':'S','128':'S',
+  'a3':'S','a4':'S','a5':'S','s3':'S','s4':'S','s5':'S','rs3':'S','rs5':'S','tt':'S',
+  'c-class':'S','c300':'S','c350':'S','c400':'S','c450':'S','c43':'S','c63':'S',
+  'cla':'S','cla250':'S',
+  'a-class':'S',
+  'is':'S','is300':'S','is350':'S',
+  'gs':'M','ls':'M','rc':'S','lc':'M',
+  'ilx':'S',
+  'miata':'S','mazda3':'S','mazda 3':'S','mazda mx-5':'S','mx-5':'S',
+  '911':'S','718':'S','boxster':'S','cayman':'S','targa':'S',
+  'ats':'S','ct4':'S',
+  'g70':'S','genesis g70':'S',
+  'lucid air':'M','lucid':'M',
+  'polestar 2':'S','polestar 3':'M','polestar 4':'M',
+  'bolt ev':'S','bolt euv':'S',
+  'leaf':'S','nissan leaf':'S',
+  'ioniq':'S','hyundai ioniq':'S',
+  'impreza':'S','wrx':'S','brz':'S','subaru brz':'S','toyota gr86':'S','gr86':'S',
+  'veloster':'S','hyundai veloster':'S',
+  'mini cooper':'S','mini':'S','mini countryman':'M','mini clubman':'S',
+};
+
+function normalizeInput(raw) {
+  return raw
+    .toLowerCase()
+    .replace(/\b(19|20)\d{2}\b/g, '')      // strip years
+    .replace(/\bawd\b|\bfwd\b|\brwd\b|\b4wd\b|\b4x4\b/g, '') // strip drivetrain
+    .replace(/\bplugin\b|\bphev\b|\bev\b|\bhybrid\b/g, '')   // strip powertrain (handled in db)
+    .replace(/[^a-z0-9\s\-]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function applyAliases(str) {
+  let s = str;
+  for (const [alias, canon] of Object.entries(makeAliases)) {
+    s = s.replace(new RegExp('\\b' + alias + '\\b', 'g'), canon);
+  }
+  return s.trim();
+}
 
 function classifyVehicle() {
-  const input = document.getElementById('vehicleInput').value.toLowerCase().trim();
+  const raw = document.getElementById('vehicleInput').value;
   const result = document.getElementById('finderResult');
-  if (!input) { result.textContent = ''; return; }
+  if (!raw.trim()) { result.textContent = ''; return; }
 
+  let input = applyAliases(normalizeInput(raw));
   let found = null;
-  // Sort keys by length desc so longer/more-specific matches win
-  const keys = Object.keys(vehicles).sort((a,b) => b.length - a.length);
+
+  // 1. Sort keys longest-first so specific matches beat generic ones
+  const keys = Object.keys(db).sort((a, b) => b.length - a.length);
   for (const key of keys) {
-    if (input.includes(key)) { found = vehicles[key][0]; break; }
+    if (input.includes(key)) { found = db[key]; break; }
   }
 
-  // Keyword fallbacks for unknown models
+  // 2. Make-level default (e.g. just typed "Lincoln")
   if (!found) {
-    if (/\b(truck|pickup|f[\-\s]?150|f[\-\s]?250|f[\-\s]?350)\b/.test(input)) found = 'XL';
-    else if (/\b(suburban|tahoe|expedition|yukon|sequoia|armada|minivan|van|3[\-\s]row|7[\-\s]seat|8[\-\s]seat)\b/.test(input)) found = 'L';
-    else if (/\b(suv|crossover|explorer|pilot|pathfinder|4runner|highlander)\b/.test(input)) found = 'M';
-    else if (/\b(sedan|coupe|hatch|compact)\b/.test(input)) found = 'S';
+    for (const [make, size] of Object.entries(makeDefaults)) {
+      if (input.includes(make)) { found = size; break; }
+    }
   }
+
+  // 3. Keyword fallbacks for anything still unrecognized
+  if (!found) {
+    if (/\b(truck|pickup|full[\s-]size pickup)\b/.test(input)) found = 'XL';
+    else if (/\b(minivan|van|3[\s-]row|seven[\s-]seat|8[\s-]seat|large suv|full[\s-]size suv)\b/.test(input)) found = 'L';
+    else if (/\b(midsize suv|mid[\s-]size suv|crossover|2[\s-]row suv)\b/.test(input)) found = 'M';
+    else if (/\b(sedan|coupe|hatchback|compact|subcompact)\b/.test(input)) found = 'S';
+  }
+
+  const sizeNames = {
+    S: 'Small — Sedan / Coupe',
+    M: 'Medium — Midsize / 2-Row',
+    L: 'Large — 3-Row SUV / Minivan',
+    XL: 'XL — Truck / Full-Size Pickup'
+  };
 
   if (found) {
-    result.textContent = `Detected: ${sizeNames[found]} — pricing updated below.`;
+    result.textContent = `Detected: ${sizeNames[found]}. Pricing updated below.`;
     result.className = 'finder-result found';
-    const btns = document.querySelectorAll('.size-btn');
     const sizes = ['S','M','L','XL'];
-    const idx = sizes.indexOf(found);
-    if (idx >= 0) btns[idx].click();
+    document.querySelectorAll('.size-btn')[sizes.indexOf(found)].click();
   } else {
-    result.textContent = 'Vehicle not recognized — please select your size manually below.';
+    result.textContent = "Vehicle not found — please select your size manually below.";
     result.className = 'finder-result notfound';
   }
 }
@@ -545,6 +665,7 @@ function classifyVehicle() {
 document.getElementById('vehicleInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') classifyVehicle();
 });
+// ── END VEHICLE CLASSIFIER ───────────────────────────────────────────
 
 const ham = document.getElementById('hamburger');
 const mob = document.getElementById('mobileMenu');
