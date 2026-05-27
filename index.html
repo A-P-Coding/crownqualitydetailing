@@ -254,19 +254,6 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
   </div>
   <div class="services-grid">
     <div class="svc-card">
-      <div class="svc-icon">✨</div>
-      <div class="svc-name">Basic In &amp; Out</div>
-      <div class="svc-desc">A quick, thorough refresh inside and out. Perfect for routine upkeep between full details.</div>
-      <ul class="svc-list">
-        <li>Exterior hand wash and dry</li>
-        <li>Interior vacuum</li>
-        <li>Dashboard and console wipe down</li>
-        <li>Window cleaning</li>
-        <li>Tire dressing</li>
-      </ul>
-      <div class="svc-price" id="p-basic">$75 <small>/ S</small></div>
-    </div>
-    <div class="svc-card">
       <div class="svc-icon">🪣</div>
       <div class="svc-name">Exterior Detail</div>
       <div class="svc-desc">A full exterior treatment that restores shine and keeps your paint protected.</div>
@@ -712,16 +699,15 @@ ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classLis
 function closeMobile() { ham.classList.remove('open'); mob.classList.remove('open'); }
 
 const prices = {
-  S:  { basic: 75,  exterior: 85,  interior: 145, royal: 200 },
-  M:  { basic: 85,  exterior: 100, interior: 165, royal: 235 },
-  L:  { basic: 95,  exterior: 120, interior: 185, royal: 265 },
-  XL: { basic: 105, exterior: 130, interior: 210, royal: 295 }
+  S:  { exterior: 85,  interior: 145, royal: 200 },
+  M:  { exterior: 100, interior: 165, royal: 235 },
+  L:  { exterior: 120, interior: 185, royal: 265 },
+  XL: { exterior: 130, interior: 210, royal: 295 }
 };
 function setSize(btn, size) {
   document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const p = prices[size];
-  document.getElementById('p-basic').innerHTML    = `$${p.basic} <small>/ ${size}</small>`;
   document.getElementById('p-exterior').innerHTML = `$${p.exterior} <small>/ ${size}</small>`;
   document.getElementById('p-interior').innerHTML = `$${p.interior} <small>/ ${size}</small>`;
   document.getElementById('p-royal').innerHTML    = `$${p.royal} <small>/ ${size}</small>`;
