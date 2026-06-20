@@ -73,33 +73,41 @@ section { padding: 5.5rem 5%; }
 .finder-result { font-size: .82rem; margin-top: .6rem; text-align: center; min-height: 1.2rem; }
 .finder-result.found { color: var(--gold); }
 .finder-result.notfound { color: var(--muted); }
-
 .addons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: .9rem; }
 .addon { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 1.1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; transition: border-color .2s; }
 .addon:hover { border-color: rgba(201,168,76,.4); }
 .addon-name { font-size: .88rem; font-weight: 500; }
 .addon-price { color: var(--gold); font-weight: 700; font-size: .88rem; }
 #gallery { background: var(--card); }
-<div class="gallery-grid">
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Acura_tires_BA__1_.png" alt="Acura wheel before and after" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Porsche_Tarcan_Passenger_Interior.png" alt="Porsche Taycan interior detail" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Porsche_Cayan_Driver_Interior.PNG" alt="Porsche Cayenne interior detail" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Rivian_exterior.png" alt="Rivian exterior detail" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Porsche_Taycan_Rear_interior.png" alt="Porsche Taycan rear interior" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Rivian_interior_passenger.png" alt="Rivian interior detail" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-</div>
+
+/* ── GALLERY GRID ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.gal-item {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  aspect-ratio: 4 / 3;
+  background: var(--card2);
+  transition: border-color .25s, transform .25s;
+}
+.gal-item:hover {
+  border-color: rgba(201,168,76,.45);
+  transform: translateY(-2px);
+}
+.gal-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* ── END GALLERY GRID ── */
+
 .loyalty-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 .l-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; }
 .l-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); margin-bottom: .5rem; }
@@ -161,7 +169,6 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
 .review-cta { display: inline-flex; align-items: center; gap: .4rem; color: var(--gold); font-size: .78rem; font-weight: 600; text-decoration: none; letter-spacing: .05em; border: 1px solid rgba(201,168,76,.3); padding: .4rem .9rem; border-radius: 3px; transition: all .2s; margin-top: .75rem; }
 .review-cta:hover { background: rgba(201,168,76,.08); border-color: var(--gold); }
 .review-header-row { display: flex; flex-direction: column; align-items: center; gap: .75rem; margin-bottom: 3rem; }
-
 /* HAMBURGER */
 .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: .4rem; background: none; border: none; }
 .hamburger span { display: block; width: 22px; height: 2px; background: var(--secondary); border-radius: 2px; transition: all .25s; }
@@ -180,6 +187,7 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
   .hero p { max-width: 100%; }
   .ctas { justify-content: center; }
   .badges { justify-content: center; gap: 1.5rem; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
   .nav-links { display: none; }
@@ -196,6 +204,10 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
   .size-btn { padding: .45rem .8rem; font-size: .75rem; }
   section { padding: 3.5rem 5%; }
   .cta-banner { padding: 3.5rem 5%; }
+  .gallery-grid { grid-template-columns: 1fr 1fr; gap: .65rem; }
+}
+@media (max-width: 480px) {
+  .gallery-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -335,26 +347,26 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
     <div class="divider"></div>
     <p class="sec-sub">Follow us on Instagram for more &nbsp;<a href="https://instagram.com/crownqualitydetailing" target="_blank" style="color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:.3rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>@crownqualitydetailing</a></p>
   </div>
-<div class="gallery-grid">
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Acura_tires_BA__1_.png" alt="Acura wheel before and after" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+  <div class="gallery-grid">
+    <div class="gal-item">
+      <img src="Acura_tires_BA__1_.png" alt="Acura wheel before and after">
+    </div>
+    <div class="gal-item">
+      <img src="Porsche%20Tarcan%20Passenger%20Interior.png" alt="Porsche Taycan interior">
+    </div>
+    <div class="gal-item">
+      <img src="Porsche%20Cayan%20Driver%20Interior.PNG" alt="Porsche Cayenne interior">
+    </div>
+    <div class="gal-item">
+      <img src="Rivian%20exterior.png" alt="Rivian exterior">
+    </div>
+    <div class="gal-item">
+      <img src="Porsche%20Taycan%20Rear%20interior.png" alt="Porsche Taycan rear interior">
+    </div>
+    <div class="gal-item">
+      <img src="Rivian%20interior%20passenger.png" alt="Rivian interior">
+    </div>
   </div>
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Porsche%20Tarcan%20Passenger%20Interior.png" alt="Porsche Taycan interior" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Porsche%20Cayan%20Driver%20Interior.PNG" alt="Porsche Cayenne interior" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Rivian%20exterior.png" alt="Rivian exterior" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Porsche%20Taycan%20Rear%20interior.png" alt="Porsche Taycan rear interior" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-  <div class="gal-item" style="padding:0;overflow:hidden;">
-    <img src="Rivian%20interior%20passenger.png" alt="Rivian interior" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-  </div>
-</div>
 </section>
 
 <section id="reviews">
@@ -376,7 +388,6 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
 </section>
 
 <section id="loyalty">
-  <section id="loyalty">
   <div class="sec-head">
     <p class="sec-eye">Crown Members</p>
     <h2 class="sec-title">Loyalty & Maintenance</h2>
@@ -386,7 +397,6 @@ footer { background: #000; border-top: 1px solid var(--border); padding: 1.75rem
   <div style="display:flex;justify-content:center;">
     <img src="business-card-back.png" alt="Crown Loyalty Card" style="max-width:480px;width:100%;border-radius:12px;border:1px solid var(--border);">
   </div>
-</section>
 </section>
 
 <section id="about">
@@ -472,7 +482,6 @@ const makeAliases = {
   'rolls':'rolls-royce','rolls royce':'rolls-royce',
 };
 
-// Make-level defaults when only brand name is typed
 const makeDefaults = {
   'lincoln':'L','cadillac':'L','genesis':'M','rivian':'XL','hummer':'XL',
   'lamborghini':'S','ferrari':'S','maserati':'M','bentley':'M','rolls-royce':'M',
@@ -480,7 +489,6 @@ const makeDefaults = {
 };
 
 const db = {
-  // ── XL: Full-size trucks ──
   'f-150':'XL','f150':'XL','f 150':'XL','ford f-150':'XL','ford f150':'XL',
   'f-250':'XL','f250':'XL','f-350':'XL','f350':'XL','f-450':'XL','f450':'XL',
   'f-series':'XL',
@@ -490,7 +498,6 @@ const db = {
   'tundra':'XL','titan':'XL','titan xd':'XL',
   'ridgeline':'XL','colorado':'M','canyon':'M','ranger':'M','maverick':'S',
   'tacoma':'M','frontier':'M','mid-size truck':'M',
-  // ── L: 3-row SUVs, full-size SUVs, minivans ──
   'suburban':'L','tahoe':'L',
   'yukon xl':'L','yukon':'L',
   'expedition':'L','expedition max':'L','expedition el':'L',
@@ -532,7 +539,6 @@ const db = {
   'santa fe':'L','hyundai santa fe':'L',
   'rivian r1s':'L','r1s':'L',
   'hummer ev suv':'L','hummer suv':'L',
-  // ── M: Midsize crossovers, midsize sedans ──
   'rav4':'M','rav4 prime':'M','rav4 hybrid':'M',
   'cr-v':'M','crv':'M','cr-v hybrid':'M',
   'escape':'M','escape hybrid':'M','bronco sport':'M',
@@ -581,7 +587,6 @@ const db = {
   'rivian r1t':'XL','r1t':'XL',
   'hummer ev truck':'XL','hummer truck':'XL',
   'bronco':'L','ford bronco':'L',
-  // ── S: Small sedans, coupes, hatchbacks, compacts ──
   'civic':'S','civic si':'S','civic type r':'S',
   'corolla':'S','corolla cross':'M',
   'sentra':'S','versa':'S',
@@ -622,9 +627,9 @@ const db = {
 function normalizeInput(raw) {
   return raw
     .toLowerCase()
-    .replace(/\b(19|20)\d{2}\b/g, '')      // strip years
-    .replace(/\bawd\b|\bfwd\b|\brwd\b|\b4wd\b|\b4x4\b/g, '') // strip drivetrain
-    .replace(/\bplugin\b|\bphev\b|\bev\b|\bhybrid\b/g, '')   // strip powertrain (handled in db)
+    .replace(/\b(19|20)\d{2}\b/g, '')
+    .replace(/\bawd\b|\bfwd\b|\brwd\b|\b4wd\b|\b4x4\b/g, '')
+    .replace(/\bplugin\b|\bphev\b|\bev\b|\bhybrid\b/g, '')
     .replace(/[^a-z0-9\s\-]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
@@ -646,20 +651,17 @@ function classifyVehicle() {
   let input = applyAliases(normalizeInput(raw));
   let found = null;
 
-  // 1. Sort keys longest-first so specific matches beat generic ones
   const keys = Object.keys(db).sort((a, b) => b.length - a.length);
   for (const key of keys) {
     if (input.includes(key)) { found = db[key]; break; }
   }
 
-  // 2. Make-level default (e.g. just typed "Lincoln")
   if (!found) {
     for (const [make, size] of Object.entries(makeDefaults)) {
       if (input.includes(make)) { found = size; break; }
     }
   }
 
-  // 3. Keyword fallbacks for anything still unrecognized
   if (!found) {
     if (/\b(truck|pickup|full[\s-]size pickup)\b/.test(input)) found = 'XL';
     else if (/\b(minivan|van|3[\s-]row|seven[\s-]seat|8[\s-]seat|large suv|full[\s-]size suv)\b/.test(input)) found = 'L';
@@ -688,7 +690,6 @@ function classifyVehicle() {
 document.getElementById('vehicleInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') classifyVehicle();
 });
-// ── END VEHICLE CLASSIFIER ───────────────────────────────────────────
 
 const ham = document.getElementById('hamburger');
 const mob = document.getElementById('mobileMenu');
