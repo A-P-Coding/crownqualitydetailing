@@ -80,9 +80,26 @@ section { padding: 5.5rem 5%; }
 .addon-name { font-size: .88rem; font-weight: 500; }
 .addon-price { color: var(--gold); font-weight: 700; font-size: .88rem; }
 #gallery { background: var(--card); }
-.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-.gal-item { aspect-ratio: 4/3; background: var(--card2); border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); font-size: .75rem; gap: .5rem; }
-.gal-item span { font-size: 1.5rem; }
+<div class="gallery-grid">
+  <div class="gal-item" style="padding:0;overflow:hidden;">
+    <img src="Acura_tires_BA__1_.png" alt="Acura wheel before and after" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+  </div>
+  <div class="gal-item" style="padding:0;overflow:hidden;">
+    <img src="Porsche_Tarcan_Passenger_Interior.png" alt="Porsche Taycan interior detail" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+  </div>
+  <div class="gal-item" style="padding:0;overflow:hidden;">
+    <img src="Porsche_Cayan_Driver_Interior.PNG" alt="Porsche Cayenne interior detail" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+  </div>
+  <div class="gal-item" style="padding:0;overflow:hidden;">
+    <img src="Rivian_exterior.png" alt="Rivian exterior detail" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+  </div>
+  <div class="gal-item" style="padding:0;overflow:hidden;">
+    <img src="Porsche_Taycan_Rear_interior.png" alt="Porsche Taycan rear interior" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+  </div>
+  <div class="gal-item" style="padding:0;overflow:hidden;">
+    <img src="Rivian_interior_passenger.png" alt="Rivian interior detail" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+  </div>
+</div>
 .loyalty-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 .l-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; }
 .l-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); margin-bottom: .5rem; }
